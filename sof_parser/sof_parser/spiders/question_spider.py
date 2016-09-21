@@ -1,4 +1,6 @@
 import scrapy
+from itertools import islice
+
 from sof_parser.items import AppItem
 
 
@@ -6,26 +8,27 @@ class QuestionSpider(scrapy.Spider):
 
     name = "question"
     url = 'http://stackoverflow.com'
+    page_size = 10
+    url_pattern = url + '/questions/tagged/{}?page={}&sort={}&pagesize={}'
 
-    def __init__(self, tag='python', sort='votes', size=250):
+    def __init__(self, tag='python', sort='votes', size=4):
         super(QuestionSpider, self).__init__()
-        remainder = size % 10
-        if remainder == 0:
-            pages = size / 10
-        else:
-            pages = size / 10 + 1
+        self.tag = tag
+        self.sort = sort
+        self.pages = size / 10
+        self.remainder = size % 10
+        if self.remainder:
+            self.pages += 1
+        # urls = [self.url_pattern.format(tag, x, sort, self.page_size) for x in xrange(1, pages+1)]
+        # self.start_urls = urls
 
-        sort = sort
-        tag = tag
-        # self.start_urls = [
-        #     for i in range(pages):
-        #
-        #     "{}/tagged/{}?page={}&sort={}".format(self.url, tag, sort),
-        # ]
-        urls = ['{}/tagged/{}?page={}&sort={}'.format(self.url, tag, x+1, sort) for x in range(pages)]
-        if remainder != 0:
-            urls[len(urls)-1] = '{}/tagged/{}?page={}&sort={}&pagesize={}'.format(self.url, tag, pages, sort, remainder)
-        self.start_urls = urls
+    def start_requests(self):
+        for page in xrange(1, self.pages+1):
+            remainder = self.page_size
+            if page == self.pages and self.remainder:
+                remainder = self.remainder
+            yield scrapy.Request(self.url_pattern.format(self.tag, page, self.sort, self.page_size),
+                                 meta={'remainder': remainder})
 
     def parse_answer(self, response):
         answer = response.xpath('//div[@class="answer accepted-answer"]')
@@ -40,17 +43,18 @@ class QuestionSpider(scrapy.Spider):
 
     def parse(self, response):
         questions = response.xpath('//div[@class="question-summary"]')
-        for question in questions[:self.limiter]:
+        remainder = response.meta['remainder']
+        for question in islice(questions, remainder):
             # import pdb; pdb.set_trace()
             item = AppItem()
-            # item['q_author'] = question.xpath('div[@class="summary"]//div[@class="user-details"]/a/text()').extract_first()
-            item['q_author'] = question.xpath('//div[@class="user-details"]/a/text()').extract_first()
+            item['q_author'] = question.xpath('div[@class="summary"]//div[@class="user-details"]/a/text()').extract_first()
+            # item['q_author'] = question.xpath('//div[@class="user-details"]/a/text()').extract_first()
             item['q_text'] = question.xpath('div[@class="summary"]/h3/a/text()').extract_first()
-            # item['q_votes'] = question.xpath('div[@class="statscontainer"]//div[@class="votes"]/span/strong/text()').extract_first()
-            item['q_votes'] = question.xpath('//div[@class="votes"]/span/strong/text()').extract_first()
+            item['q_votes'] = question.xpath('div[@class="statscontainer"]//div[@class="votes"]/span/strong/text()').extract_first()
+            # item['q_votes'] = question.xpath('//div[@class="votes"]/span/strong/text()').extract_first()
             item['a_link'] = '{}/{}'.format(self.url, question.xpath('div[@class="summary"]/h3/a/@href').extract_first())
-            # item['q_data'] = question.xpath('div[@class="summary"]//div[@class="user-action-time"]/span/text()').extract_first()
-            item['q_data'] = question.xpath('//div[@class="user-action-time"]/span/text()').extract_first()
+            item['q_data'] = question.xpath('div[@class="summary"]//div[@class="user-action-time"]/span/text()').extract_first()
+            # item['q_data'] = question.xpath('//div[@class="user-action-time"]/span/text()').extract_first()
             # yield item
             yield scrapy.Request(item['a_link'], callback=self.parse_answer, meta={'item': item})
 
