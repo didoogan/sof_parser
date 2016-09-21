@@ -1,0 +1,12 @@
+[
+{"q_data": "Oct 23 '08 at 22:21", "q_text": "What does the \u201cyield\u201d keyword do?", "q_votes": "5431", "a_link": "https://stackoverflow.com//questions/231767/what-does-the-yield-keyword-do", "q_author": "Alex. S."},
+{"q_data": "Sep 19 '08 at 6:10", "q_text": "What is a metaclass in Python?", "q_votes": "3160", "a_link": "https://stackoverflow.com//questions/100003/what-is-a-metaclass-in-python", "q_author": "e-satis"},
+{"q_data": "Sep 17 '08 at 12:55", "q_text": "How to check whether a file exists using Python?", "q_votes": "2666", "a_link": "https://stackoverflow.com//questions/82831/how-to-check-whether-a-file-exists-using-python", "q_author": "spence91"},
+{"q_data": "Empty value", "q_text": "Does Python have a ternary conditional operator?", "q_votes": "2591", "a_link": "https://stackoverflow.com//questions/394809/does-python-have-a-ternary-conditional-operator", "q_author": "\r\n        16 revs, 12 users 45%"},
+{"q_data": "Sep 18 '08 at 1:35", "q_text": "Calling an external command in Python", "q_votes": "2269", "a_link": "https://stackoverflow.com//questions/89228/calling-an-external-command-in-python", "q_author": "freshWoWer"},
+{"q_data": "Jan 7 '09 at 4:11", "q_text": "What does `if __name__ == \u201c__main__\u201d:` do?", "q_votes": "2108", "a_link": "https://stackoverflow.com//questions/419163/what-does-if-name-main-do", "q_author": "Devoted"},
+{"q_data": "Apr 11 '09 at 7:05", "q_text": "How to make a chain of function decorators in Python?", "q_votes": "1904", "a_link": "https://stackoverflow.com//questions/739654/how-to-make-a-chain-of-function-decorators-in-python", "q_author": "Imran"},
+{"q_data": "Sep 2 '08 at 7:44", "q_text": "How to merge two Python dictionaries in a single expression?", "q_votes": "1827", "a_link": "https://stackoverflow.com//questions/38987/how-to-merge-two-python-dictionaries-in-a-single-expression", "q_author": "Carl Meyer"},
+{"q_data": "Mar 5 '09 at 0:49", "q_text": "Sort a Python dictionary by value", "q_votes": "1784", "a_link": "https://stackoverflow.com//questions/613183/sort-a-python-dictionary-by-value", "q_author": "Gern Blanston"},
+{"q_data": "Nov 7 '08 at 18:56", "q_text": "How to check if a directory exists and create it if necessary?", "q_votes": "1695", "a_link": "https://stackoverflow.com//questions/273192/how-to-check-if-a-directory-exists-and-create-it-if-necessary", "q_author": "Parand"}
+]
